@@ -17,7 +17,7 @@ class GetDirectionRules(ABC):
 class Result(ABC):
     """Result for any operation"""
     @abstractmethod
-    def apply(*args, ops, **kwargs):
+    def apply(*args, operation, **kwargs):
         pass
 
 __all__ = ["JellyFishOps", "GetDirectionRules"]
