@@ -1,9 +1,9 @@
-from operations import *
+from operations import GetMultipleJellyFishPos, GetFinalPosition
 from base_functionalities import Result
 
-class ResultantPos(Result):
-    def apply(*args, operation, **kwargs):
-       return operation.operation(*args, **kwargs)
+class ResultantPositions(Result):
+    def apply(*args, operation, using, **kwargs):
+       return operation().operation(*args, ops=using, **kwargs)
 
 
 if __name__ == "__main__":
@@ -11,6 +11,5 @@ if __name__ == "__main__":
 11E RFRFRFRF
 32N FRRFLLFFRRFLL
 03W LLFFFLFLFL"""
-  get_multi_pos = GetMultipleJellyFishPos()
-  ResultantPos.apply(inputs, operation=get_multi_pos)
   # We can add more functionalities here in the similar way by importing them from operations module...
+  ResultantPositions.apply(inputs, operation=GetMultipleJellyFishPos, using=GetFinalPosition)

@@ -19,10 +19,9 @@ class GetFinalPosition(JellyFishOps, GetDirectionRules):
             }
   
   def operation(self, tank_coord, jelly_fish_data):
-      X_lim, Y_lim = int(tank_coord[0]), int(tank_coord[1])
-      (X, Y, dir), rule = jelly_fish_data.split(" ")
-      X = int(X)
-      Y = int(Y)
+      X_lim, Y_lim = tank_coord
+      (X, Y, dir), rule = jelly_fish_data
+
       msg = ""
       for r in rule:
         if str(X)+str(Y)+dir+r in self.__blocked_grids:
@@ -57,14 +56,30 @@ class GetFinalPosition(JellyFishOps, GetDirectionRules):
   
       return str(X)+str(Y)+dir+msg
 
-class GetMultipleJellyFishPos(JellyFishOps):
+class FetchInputs(FetchInputsFromStdIn):
+  """Takes multiple inputs from the StdIn and returns the extracted data from the inputs"""
+  def get_inputs(self, inp):
+    tank_coord, *jelly_fish_data = inp.splitlines()
+    X_lim, Y_lim = int(tank_coord[0]), int(tank_coord[1])
+
+    i = 0
+    for j_data in jelly_fish_data:
+      (X, Y, dir), rule = j_data.split(" ")
+      X = int(X)
+      Y = int(Y)
+      jelly_fish_data[i] = ((X, Y, dir), rule)
+      i += 1
+
+    tank_coord = X_lim, Y_lim
+
+    return tank_coord, jelly_fish_data
+
+class GetMultipleJellyFishPos(JellyFishOps, FetchInputs):
   """Get final positions for multiple jelly fishes inside the tank"""
-  def operation(self, inputs):
-    final_pos = GetFinalPosition()
-    tank_coord, *jelly_fish_data = inputs.splitlines()
+
+  def operation(self, inputs, ops):
+    final_pos = ops()
+    tank_coord, jelly_fish_data = self.get_inputs(inputs)
 
     for j_data in jelly_fish_data:
       print(final_pos.operation(tank_coord, j_data))
-
-# Export the functionalies which you want to make accessible when imported using: from _ import *
-__all__ = ["GetMultipleJellyFishPos"]

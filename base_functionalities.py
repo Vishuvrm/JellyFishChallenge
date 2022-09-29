@@ -14,10 +14,16 @@ class GetDirectionRules(ABC):
   def direction_rule(self):
       pass
 
+class FetchInputsFromStdIn(ABC):
+  """Fetches inputs from the StdIn"""
+  @abstractmethod
+  def get_inputs(self, inp):
+    pass
+
 class Result(ABC):
-    """Result for any operation"""
+    """Result for a main operation using some specific inner functionality"""
     @abstractmethod
-    def apply(*args, operation, **kwargs):
+    def apply(*args, operation, using, **kwargs):
         pass
 
-__all__ = ["JellyFishOps", "GetDirectionRules"]
+__all__ = ["JellyFishOps", "GetDirectionRules", "FetchInputsFromStdIn"]
