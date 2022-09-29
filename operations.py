@@ -3,7 +3,7 @@ from base_functionalities import *
 class GetFinalPosition(JellyFishOps, GetDirectionRules):
   """Returns the final position of the jelly fish in the tank"""
   def __init__(self):
-    self.blocked_grids = set()
+    self.__blocked_grids = set()
 
   @property
   def direction_rule(self):
@@ -25,7 +25,7 @@ class GetFinalPosition(JellyFishOps, GetDirectionRules):
       Y = int(Y)
       msg = ""
       for r in rule:
-        if str(X)+str(Y)+dir+r in self.blocked_grids:
+        if str(X)+str(Y)+dir+r in self.__blocked_grids:
           return str(X)+str(Y)+dir
         if r != 'F':
           dir = self.direction_rule[dir + r]
@@ -33,25 +33,25 @@ class GetFinalPosition(JellyFishOps, GetDirectionRules):
           if dir == 'N':
             if Y+1 > Y_lim:
               msg = "LOST"
-              self.blocked_grids.add(str(X)+str(Y)+dir+r)
+              self.__blocked_grids.add(str(X)+str(Y)+dir+r)
               break
             Y += 1
           elif dir == 'S':
             if Y-1 < 0:
               msg = "LOST"
-              self.blocked_grids.add(str(X)+str(Y)+dir+r)
+              self.__blocked_grids.add(str(X)+str(Y)+dir+r)
               break
             Y -= 1
           elif dir == 'E':
             if X+1 > X_lim:
               msg = "LOST"
-              self.blocked_grids.add(str(X)+str(Y)+dir+r)
+              self.__blocked_grids.add(str(X)+str(Y)+dir+r)
               break
             X += 1
           elif dir == 'W':
             if X-1 < 0:
               msg = "LOST"
-              self.blocked_grids.add(str(X)+str(Y)+dir+r)
+              self.__blocked_grids.add(str(X)+str(Y)+dir+r)
               break
             X -= 1
   
@@ -66,5 +66,5 @@ class GetMultipleJellyFishPos(JellyFishOps):
     for j_data in jelly_fish_data:
       print(final_pos.operation(tank_coord, j_data))
 
-
+# Export the functionalies which you want to make accessible when imported using: from _ import *
 __all__ = ["GetMultipleJellyFishPos"]
